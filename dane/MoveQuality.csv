@@ -1,0 +1,82 @@
+Move;Procent;Color;Type;Total;Player
+Brilliant;0.1;W;bullet;21;Kacper
+Best;32.7;W;bullet;8657;Kacper
+Excellent;19.6;W;bullet;5184;Kacper
+Good;12.1;W;bullet;3213;Kacper
+Book;10.8;W;bullet;2857;Kacper
+Inaccuracy;10.6;W;bullet;2811;Kacper
+Mistake;8.0;W;bullet;2111;Kacper
+Blunder;5.2;W;bullet;1372;Kacper
+Missed Win;1.1;W;bullet;285;Kacper
+Brilliant;0.1;B;bullet;16;Kacper
+Best;31.5;B;bullet;8176;Kacper
+Excellent;19.3;B;bullet;5011;Kacper
+Good;12.6;B;bullet;3281;Kacper
+Book;9.0;B;bullet;2322;Kacper
+Inaccuracy;11.7;B;bullet;3032;Kacper
+Mistake;8.6;B;bullet;2228;Kacper
+Blunder;6.2;B;bullet;1602;Kacper
+Missed Win;1.0;B;bullet;272;Kacper
+Brilliant;0.2;W;blitz;5;Kacper
+Best;34.7;W;blitz;831;Kacper
+Excellent;16.0;W;blitz;384;Kacper
+Good;12.6;W;blitz;302;Kacper
+Book;11.7;W;blitz;281;Kacper
+Inaccuracy;10.3;W;blitz;246;Kacper
+Mistake;8.7;W;blitz;208;Kacper
+Blunder;5.0;W;blitz;119;Kacper
+Missed Win;0.9;W;blitz;21;Kacper
+Brilliant;0.3;B;blitz;6;Kacper
+Best;35.4;B;blitz;764;Kacper
+Excellent;20.6;B;blitz;445;Kacper
+Good;12.7;B;blitz;273;Kacper
+Book;7.5;B;blitz;161;Kacper
+Inaccuracy;10.5;B;blitz;227;Kacper
+Mistake;7.6;B;blitz;165;Kacper
+Blunder;4.6;B;blitz;100;Kacper
+Missed Win;0.7;B;blitz;16;Kacper
+Brilliant;0.2;W;rapid;1;Kacper
+Best;33.0;W;rapid;201;Kacper
+Excellent;17.0;W;rapid;104;Kacper
+Good;14.4;W;rapid;88;Kacper
+Book;10.0;W;rapid;61;Kacper
+Inaccuracy;9.3;W;rapid;57;Kacper
+Mistake;8.2;W;rapid;50;Kacper
+Blunder;6.9;W;rapid;42;Kacper
+Missed Win;1.0;W;rapid;6;Kacper
+Brilliant;0.0;B;rapid;0;Kacper
+Best;36.0;B;rapid;256;Kacper
+Excellent;17.6;B;rapid;125;Kacper
+Good;11.1;B;rapid;79;Kacper
+Book;7.5;B;rapid;53;Kacper
+Inaccuracy;10.8;B;rapid;77;Kacper
+Mistake;9.4;B;rapid;67;Kacper
+Blunder;5.1;B;rapid;36;Kacper
+Missed Win;2.5;B;rapid;18;Kacper
+Brilliant;0.1;WB;bullet;37;Kacper
+Best;32.1;WB;bullet;16833;Kacper
+Excellent;19.4;WB;bullet;10195;Kacper
+Good;12.4;WB;bullet;6494;Kacper
+Book;9.9;WB;bullet;5179;Kacper
+Inaccuracy;11.1;WB;bullet;5843;Kacper
+Mistake;8.3;WB;bullet;4339;Kacper
+Blunder;5.7;WB;bullet;2974;Kacper
+Missed Win;1.1;WB;bullet;557;Kacper
+Brilliant;0.2;WB;blitz;11;Kacper
+Best;35.0;WB;blitz;1595;Kacper
+Excellent;18.2;WB;blitz;829;Kacper
+Good;12.6;WB;blitz;575;Kacper
+Book;9.7;WB;blitz;442;Kacper
+Inaccuracy;10.4;WB;blitz;473;Kacper
+Mistake;8.2;WB;blitz;373;Kacper
+Blunder;4.8;WB;blitz;219;Kacper
+Missed Win;0.8;WB;blitz;37;Kacper
+Brilliant;0.1;WB;rapid;1;Kacper
+Best;34.6;WB;rapid;457;Kacper
+Excellent;17.3;WB;rapid;229;Kacper
+Good;12.6;WB;rapid;167;Kacper
+Book;8.6;WB;rapid;114;Kacper
+Inaccuracy;10.1;WB;rapid;134;Kacper
+Mistake;8.9;WB;rapid;117;Kacper
+Blunder;5.9;WB;rapid;78;Kacper
+Missed Win;1.8;WB;rapid;24;Kacper
