@@ -1,3 +1,6 @@
 [submodule "kaRpov"]
 	path = kaRpov
 	url = https://github.com/ZetrextJG/kaRpov
+[submodule "chess_com_extractor"]
+	path = chess_com_extractor
+	url = git@github.com:vphpersson/chess_com_extractor.git
