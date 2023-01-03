@@ -1,0 +1,82 @@
+Move;Procent;Color;Type;Total;Player;MoveColor
+Brilliant;0.1;W;bullet;21;Kacper;#1bada6
+Best;32.7;W;bullet;8657;Kacper;#96bc4b
+Excellent;19.6;W;bullet;5184;Kacper;#9bbf56
+Good;12.1;W;bullet;3213;Kacper;#96af8b
+Book;10.8;W;bullet;2857;Kacper;#a88865
+Inaccuracy;10.6;W;bullet;2811;Kacper;#f7c045
+Mistake;8.0;W;bullet;2111;Kacper;#e58f2a
+Blunder;5.2;W;bullet;1372;Kacper;#ca3431
+Missed Win;1.1;W;bullet;285;Kacper;#dbac16
+Brilliant;0.1;B;bullet;16;Kacper;#1bada6
+Best;31.5;B;bullet;8176;Kacper;#96bc4b
+Excellent;19.3;B;bullet;5011;Kacper;#9bbf56
+Good;12.6;B;bullet;3281;Kacper;#96af8b
+Book;9.0;B;bullet;2322;Kacper;#a88865
+Inaccuracy;11.7;B;bullet;3032;Kacper;#f7c045
+Mistake;8.6;B;bullet;2228;Kacper;#e58f2a
+Blunder;6.2;B;bullet;1602;Kacper;#ca3431
+Missed Win;1.0;B;bullet;272;Kacper;#dbac16
+Brilliant;0.2;W;blitz;5;Kacper;#1bada6
+Best;34.7;W;blitz;831;Kacper;#96bc4b
+Excellent;16.0;W;blitz;384;Kacper;#9bbf56
+Good;12.6;W;blitz;302;Kacper;#96af8b
+Book;11.7;W;blitz;281;Kacper;#a88865
+Inaccuracy;10.3;W;blitz;246;Kacper;#f7c045
+Mistake;8.7;W;blitz;208;Kacper;#e58f2a
+Blunder;5.0;W;blitz;119;Kacper;#ca3431
+Missed Win;0.9;W;blitz;21;Kacper;#dbac16
+Brilliant;0.3;B;blitz;6;Kacper;#1bada6
+Best;35.4;B;blitz;764;Kacper;#96bc4b
+Excellent;20.6;B;blitz;445;Kacper;#9bbf56
+Good;12.7;B;blitz;273;Kacper;#96af8b
+Book;7.5;B;blitz;161;Kacper;#a88865
+Inaccuracy;10.5;B;blitz;227;Kacper;#f7c045
+Mistake;7.6;B;blitz;165;Kacper;#e58f2a
+Blunder;4.6;B;blitz;100;Kacper;#ca3431
+Missed Win;0.7;B;blitz;16;Kacper;#dbac16
+Brilliant;0.2;W;rapid;1;Kacper;#1bada6
+Best;33.0;W;rapid;201;Kacper;#96bc4b
+Excellent;17.0;W;rapid;104;Kacper;#9bbf56
+Good;14.4;W;rapid;88;Kacper;#96af8b
+Book;10.0;W;rapid;61;Kacper;#a88865
+Inaccuracy;9.3;W;rapid;57;Kacper;#f7c045
+Mistake;8.2;W;rapid;50;Kacper;#e58f2a
+Blunder;6.9;W;rapid;42;Kacper;#ca3431
+Missed Win;1.0;W;rapid;6;Kacper;#dbac16
+Brilliant;0.0;B;rapid;0;Kacper;#1bada6
+Best;36.0;B;rapid;256;Kacper;#96bc4b
+Excellent;17.6;B;rapid;125;Kacper;#9bbf56
+Good;11.1;B;rapid;79;Kacper;#96af8b
+Book;7.5;B;rapid;53;Kacper;#a88865
+Inaccuracy;10.8;B;rapid;77;Kacper;#f7c045
+Mistake;9.4;B;rapid;67;Kacper;#e58f2a
+Blunder;5.1;B;rapid;36;Kacper;#ca3431
+Missed Win;2.5;B;rapid;18;Kacper;#dbac16
+Brilliant;0.1;WB;bullet;37;Kacper;#1bada6
+Best;32.1;WB;bullet;16833;Kacper;#96bc4b
+Excellent;19.4;WB;bullet;10195;Kacper;#9bbf56
+Good;12.4;WB;bullet;6494;Kacper;#96af8b
+Book;9.9;WB;bullet;5179;Kacper;#a88865
+Inaccuracy;11.1;WB;bullet;5843;Kacper;#f7c045
+Mistake;8.3;WB;bullet;4339;Kacper;#e58f2a
+Blunder;5.7;WB;bullet;2974;Kacper;#ca3431
+Missed Win;1.1;WB;bullet;557;Kacper;#dbac16
+Brilliant;0.2;WB;blitz;11;Kacper;#1bada6
+Best;35.0;WB;blitz;1595;Kacper;#96bc4b
+Excellent;18.2;WB;blitz;829;Kacper;#9bbf56
+Good;12.6;WB;blitz;575;Kacper;#96af8b
+Book;9.7;WB;blitz;442;Kacper;#a88865
+Inaccuracy;10.4;WB;blitz;473;Kacper;#f7c045
+Mistake;8.2;WB;blitz;373;Kacper;#e58f2a
+Blunder;4.8;WB;blitz;219;Kacper;#ca3431
+Missed Win;0.8;WB;blitz;37;Kacper;#dbac16
+Brilliant;0.1;WB;rapid;1;Kacper;#1bada6
+Best;34.6;WB;rapid;457;Kacper;#96bc4b
+Excellent;17.3;WB;rapid;229;Kacper;#9bbf56
+Good;12.6;WB;rapid;167;Kacper;#96af8b
+Book;8.6;WB;rapid;114;Kacper;#a88865
+Inaccuracy;10.1;WB;rapid;134;Kacper;#f7c045
+Mistake;8.9;WB;rapid;117;Kacper;#e58f2a
+Blunder;5.9;WB;rapid;78;Kacper;#ca3431
+Missed Win;1.8;WB;rapid;24;Kacper;#dbac16
