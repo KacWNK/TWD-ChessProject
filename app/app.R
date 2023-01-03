@@ -5,8 +5,8 @@ library(plotly)
 library(forcats)
 library(gridExtra)
 
-dfMoveQuality <- read.csv("MoveQuality.csv", sep = ";")
-dfWorldStats <- read.csv("WorldStats.csv", sep = ";")
+dfMoveQuality <- read.csv("MoveQuality.csv")
+dfWorldStats <- read.csv("WorldStats.csv")
 dfWinRate <- read.csv("WinRate.csv")
 dfGamesData <- read.csv("GamesData.csv")
 
@@ -20,13 +20,13 @@ ui1 <- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      radioButtons("typeWinRate", 
+      radioButtons("typeWinRate",
                    "Choose time control",
                    selected = unique(dfWinRate$Type)[1],
-                   choiceNames = c("Bullet", "Blitz", "Rapid"), 
+                   choiceNames = c("Bullet", "Blitz", "Rapid"),
                    choiceValues = unique(dfWinRate$Type)
       ),
-      
+
       radioButtons("playerWinRate",
                    "Select a player",
                    selected = unique(dfWinRate$Player)[1],
@@ -46,17 +46,17 @@ ui1 <- fluidPage(
                    choiceNames = c("White", "Black", "White and black"),
                    choiceValues = unique(dfMoveQuality$Color)
                   ),
-      
+
       radioButtons("playerMoveQuality",
                    "Select a player",
                    selected = unique(dfMoveQuality$Player)[1],
                    choices = unique(dfMoveQuality$Player)
                    ),
-      
+
       radioButtons("typeMoveQuality",
                    "Choose time control",
                    selected = unique(dfMoveQuality$Type)[1],
-                   choiceNames = c("Bullet", "Blitz", "Rapid"), 
+                   choiceNames = c("Bullet", "Blitz", "Rapid"),
                    choiceValues = unique(dfMoveQuality$Type)
                    )
                 ),
@@ -64,20 +64,20 @@ ui1 <- fluidPage(
       plotlyOutput("moveQualityPlot")
       )
     ),
-  
+
   sidebarLayout(position = "left",
-                
+
                 sidebarPanel(
-                  
+
                   radioButtons("playerElo",
                                "Select a player",
                                selected = unique(dfGamesData$player)[1],
                                choices = unique(dfGamesData$player)
                   ),
                   uiOutput("typeElo"),
-                  uiOutput("timeLagElo")      
+                  uiOutput("timeLagElo")
                 ),
-                
+
                 mainPanel(
                   plotOutput("eloPlot")
                 )
@@ -93,7 +93,8 @@ server <- function(input, output) {
     
     dfGamesData %>% filter(date >= input$timeLagElo[1],
                            date <= input$timeLagElo[2],
-                           timeControl %in% input$typeElo) -> df2
+                           timeControl %in% input$typeElo,
+                           player %in% input$playerElo) -> df2
     
     ggplot(data = df2, aes(x = date, y = yourElo))+
       geom_point()+
@@ -128,7 +129,7 @@ server <- function(input, output) {
       geom_col(width = 0.5) +
       geom_text(aes(label = paste(Percentages, "%")), position = position_stack(vjust = 0.5)) +
       scale_fill_manual(values = dfWinRatePlot$Colors) +
-      labs(x = "", y = "") +
+      labs(x = "", y = "Number of Matches") +
       theme_void()+
       theme(legend.position="bottom")+
       coord_flip() 
@@ -150,30 +151,28 @@ server <- function(input, output) {
   output$typeElo <- renderUI({
     
     dfGamesData %>% filter(player %in% input$playerElo) -> df4
-    if (input$playerElo == "Kacper"){
-      namesVector = c("Bullet 2 min + 1 sec increment", "Blitz 5 min", "Bullet 1 min", "Rapid 10 min")
-    }
     
     radioButtons("typeElo",
                  "Choose time control",
-                 choiceNames = namesVector,
-                 choiceValues = unique(df4$timeControl)
+                 choices = unique(df4$timeControl)
     ) 
   })
   
   output$densPlot <- renderPlot({
     
     ggplot(data = dfGamesData %>% filter(player == "Kacper"), aes(x = endHour))+
-      geom_density()+
-      labs(x = "Time")+
-      labs(x = "Time", y = "Density")-> p1
+      geom_density(fill = "#96bc4b")+
+      labs(x = "Time", y = "Density", title = "Kacper")+
+      scale_x_continuous(expand = c(0,0))+
+      scale_y_continuous(expand = c(0,0))-> p1
     ggplot(data = dfGamesData %>% filter(player == "Krzysiek"), aes(x = endHour))+
-      geom_density()+
-      labs(x = "Time", y = "Density")->p2
+      geom_density(fill = "#1bada6")+
+      labs(x = "Time", y = "Density", title = "Krzysiek")+
+      scale_x_continuous(expand = c(0,0))+
+      scale_y_continuous(expand = c(0,0))->p2
     grid.arrange(p1,p2, ncol =2)
   })
 }
-
 
 shinyApp(ui = ui1, server = server)
 
