@@ -15,8 +15,6 @@ dfGamesData %>%
   mutate(endHour = substring(endHour,1, nchar(endHour)-3)) %>% 
   mutate(endHour = as.numeric(gsub(":", "\\.", endHour))) -> dfGamesData
 
-dfMoveQuality %>% filter(Move == "Good")
-
 
 ui1 <- fluidPage(
   
