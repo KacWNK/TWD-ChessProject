@@ -130,11 +130,10 @@ server <- function(input, output) {
       geom_col(width = 0.5) +
       geom_text(aes(label = paste(Percentages, "%")), position = position_stack(vjust = 0.5)) +
       scale_fill_manual(values = dfWinRatePlot$Colors) +
-      labs(x = "", y = "Number of Matches") +
-      theme(plot.title = element_text(hjust = 0.5),
-            plot.background = element_rect(fill = "transparent")) +
-      coord_flip() +
-      theme_void()
+      labs(x = "", y = "") +
+      theme_void()+
+      theme(legend.position="bottom")+
+      coord_flip() 
   })
   
   output$timeLagElo <- renderUI({
