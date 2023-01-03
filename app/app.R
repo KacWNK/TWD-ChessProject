@@ -2,61 +2,61 @@ library(shiny)
 library(ggplot2)
 library(dplyr)
 library(plotly)
+library(forcats)
+library(gridExtra)
 
-df <- read.csv("df.csv", sep = ";")
 dfMoveQuality <- read.csv("MoveQuality.csv", sep = ";")
 dfWorldStats <- read.csv("WorldStats.csv", sep = ";")
 dfWinRate <- read.csv("WinRate.csv")
+dfGamesData <- read.csv("GamesData.csv")
 
+dfGamesData %>% 
+  mutate(date = as.Date(date)) %>%  
+  mutate(endHour = substring(endHour,1, nchar(endHour)-3)) %>% 
+  mutate(endHour = as.numeric(gsub(":", "\\.", endHour))) -> dfGamesData
 
-df %>% mutate(Data = as.Date(gsub("\\.","-",Data))) -> df
+dfMoveQuality %>% filter(Move == "Good")
 
 
 ui1 <- fluidPage(
   
-  sidebarLayout(position = "left",
-                
+  sidebarLayout(
     sidebarPanel(
-      
-      sliderInput("timeLagElo",
-                  "Wybierz przedział czasowy",
-                  value = c(min(df$Data), max(df$Data)),
-                  min = min(df$Data),
-                  max = max(df$Data),
-                  step = 1),
-      radioButtons("playerElo",
-                   "Wybierz gracza",
-                   selected = c("Kacper", "Krzysiek")[1],
-                   choices = c("Kacper", "Krzysiek")),
-      
-      radioButtons("typeElo",
-                   "Wybierz typ partii",
-                   selected = c("rapid", "bullet", "blitz")[1],
-                  choices = c("rapid", "bullet", "blitz"))
+      radioButtons("typeWinRate", 
+                   "Choose time control",
+                   selected = unique(dfWinRate$Type)[1],
+                   choiceNames = c("Bullet", "Blitz", "Rapid"), 
+                   choiceValues = unique(dfWinRate$Type)
       ),
-    
+      
+      radioButtons("playerWinRate",
+                   "Select a player",
+                   selected = unique(dfWinRate$Player)[1],
+                   choices = unique(dfWinRate$Player)
+      ),
+    ),
     mainPanel(
-    plotOutput("eloPlot")
+      plotOutput("winRatePlot")
     )
   ),
 
   sidebarLayout(
     sidebarPanel(
       radioButtons("colorMoveQuality",
-                   "Wybierz kolor bierek",
+                   "Choose color of pawns",
                    selected = unique(dfMoveQuality$Color)[1],
-                   choiceNames = c("Białe", "Czarne", "Białe i Czarne"),
+                   choiceNames = c("White", "Black", "White and black"),
                    choiceValues = unique(dfMoveQuality$Color)
                   ),
       
       radioButtons("playerMoveQuality",
-                   "Wybierz gracza",
+                   "Select a player",
                    selected = unique(dfMoveQuality$Player)[1],
                    choices = unique(dfMoveQuality$Player)
                    ),
       
       radioButtons("typeMoveQuality",
-                   "Wybierz typ partii",
+                   "Choose time control",
                    selected = unique(dfMoveQuality$Type)[1],
                    choiceNames = c("Bullet", "Blitz", "Rapid"), 
                    choiceValues = unique(dfMoveQuality$Type)
@@ -67,25 +67,24 @@ ui1 <- fluidPage(
       )
     ),
   
-  sidebarLayout(
-    sidebarPanel(
-      radioButtons("typeWinRate", 
-                   "Wybierz typ partii",
-                   selected = unique(dfWinRate$Type)[1],
-                   choiceNames = c("Bullet", "Blitz", "Rapid"), 
-                   choiceValues = unique(dfWinRate$Type)
-      ),
-      
-      radioButtons("playerWinRate",
-                   "Wybierz gracza",
-                   selected = unique(dfWinRate$Player)[1],
-                   choices = unique(dfWinRate$Player)
-      ),
-    ),
-    mainPanel(
-      plotOutput("winRateplot")
-    )
-  )
+  sidebarLayout(position = "left",
+                
+                sidebarPanel(
+                  
+                  radioButtons("playerElo",
+                               "Select a player",
+                               selected = unique(dfGamesData$player)[1],
+                               choices = unique(dfGamesData$player)
+                  ),
+                  uiOutput("typeElo"),
+                  uiOutput("timeLagElo")      
+                ),
+                
+                mainPanel(
+                  plotOutput("eloPlot")
+                )
+  ),
+  plotOutput("densPlot")
 )
 
 
@@ -94,12 +93,14 @@ server <- function(input, output) {
 
   output$eloPlot <- renderPlot({
     
-    df %>% filter(Data >= input$timeLagElo[1],
-                  Data <= input$timeLagElo[2]) -> df2
+    dfGamesData %>% filter(date >= input$timeLagElo[1],
+                           date <= input$timeLagElo[2],
+                           timeControl %in% input$typeElo) -> df2
     
-    ggplot(data = df2, aes(x = Data, y = MyElo))+
+    ggplot(data = df2, aes(x = date, y = yourElo))+
       geom_point()+
-      geom_line()
+      geom_line()+
+      labs(x = "Date", y = "Rating points")
     
   })
   
@@ -108,13 +109,18 @@ server <- function(input, output) {
     dfMoveQuality %>%
       filter(Type %in% input$typeMoveQuality,
              Color %in% input$colorMoveQuality,
-             Player %in% input$playerMoveQuality) ->dfMoveQualityPlot
+             Player %in% input$playerMoveQuality) %>% 
+      mutate(Move = fct_reorder(Move, Procent, .desc = FALSE))->dfMoveQualityPlot
     
-    ggplot(data = dfMoveQualityPlot, aes(x = Procent, y = Move))+ 
-      geom_col()
+    ggplot(data = dfMoveQualityPlot, aes(x = Procent, y = Move, fill = MoveColor))+
+      geom_col()+
+      labs(x = "Percent", y = "Move type")+
+      scale_fill_manual(values = unique(dfMoveQualityPlot$MoveColor))+ 
+      scale_x_continuous(expand = c(0,0))+
+      theme(legend.position="none")
   })
   
-  output$winRateplot <- renderPlot({
+  output$winRatePlot <- renderPlot({
     
     dfWinRate %>% 
       filter(Type %in% input$typeWinRate,
@@ -124,10 +130,50 @@ server <- function(input, output) {
       geom_col(width = 0.5) +
       geom_text(aes(label = paste(Percentages, "%")), position = position_stack(vjust = 0.5)) +
       scale_fill_manual(values = dfWinRatePlot$Colors) +
-      labs(title = "Match Results", x = "", y = "Number of Matches") +
+      labs(x = "", y = "Number of Matches") +
       theme(plot.title = element_text(hjust = 0.5),
             plot.background = element_rect(fill = "transparent")) +
-      coord_flip()
+      coord_flip() +
+      theme_void()
+  })
+  
+  output$timeLagElo <- renderUI({
+    
+    dfGamesData %>% filter(player %in% input$playerElo, timeControl %in% input$typeElo) -> df3
+    
+    sliderInput("timeLagElo",
+                "Select a time period",
+                value = c(min(df3$date), max(df3$date)),
+                min = min(df3$date),
+                max = max(df3$date),
+                step = 1
+    ) 
+  })
+  
+  output$typeElo <- renderUI({
+    
+    dfGamesData %>% filter(player %in% input$playerElo) -> df4
+    if (input$playerElo == "Kacper"){
+      namesVector = c("Bullet 2 min + 1 sec increment", "Blitz 5 min", "Bullet 1 min", "Rapid 10 min")
+    }
+    
+    radioButtons("typeElo",
+                 "Choose time control",
+                 choiceNames = namesVector,
+                 choiceValues = unique(df4$timeControl)
+    ) 
+  })
+  
+  output$densPlot <- renderPlot({
+    
+    ggplot(data = dfGamesData %>% filter(player == "Kacper"), aes(x = endHour))+
+      geom_density()+
+      labs(x = "Time")+
+      labs(x = "Time", y = "Density")-> p1
+    ggplot(data = dfGamesData %>% filter(player == "Krzysiek"), aes(x = endHour))+
+      geom_density()+
+      labs(x = "Time", y = "Density")->p2
+    grid.arrange(p1,p2, ncol =2)
   })
 }
 
