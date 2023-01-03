@@ -41,7 +41,7 @@ ui1 <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       radioButtons("colorMoveQuality",
-                   "Choose color of pawns",
+                   "Choose color of pieces",
                    selected = unique(dfMoveQuality$Color)[1],
                    choiceNames = c("White", "Black", "White and black"),
                    choiceValues = unique(dfMoveQuality$Color)
