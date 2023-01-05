@@ -74,7 +74,11 @@ ui1 <- fluidPage(
                                selected = unique(dfGamesData$player)[1],
                                choices = unique(dfGamesData$player)
                   ),
-                  uiOutput("typeElo"),
+                  radioButtons("typeElo",
+                               "Choose time control",
+                               selected = unique(dfGamesData$timeControl)[1],
+                               choices = unique(dfGamesData$timeControl)
+                  ),
                   uiOutput("timeLagElo")
                 ),
 
@@ -148,16 +152,6 @@ server <- function(input, output) {
     ) 
   })
   
-  output$typeElo <- renderUI({
-    
-    dfGamesData %>% filter(player %in% input$playerElo) -> df4
-    
-    radioButtons("typeElo",
-                 "Choose time control",
-                 choices = unique(df4$timeControl)
-    ) 
-  })
-  
   output$densPlot <- renderPlot({
     
     ggplot(data = dfGamesData %>% filter(player == "Kacper"), aes(x = endHour))+
@@ -175,5 +169,6 @@ server <- function(input, output) {
 }
 
 shinyApp(ui = ui1, server = server)
+
 
 
