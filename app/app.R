@@ -4,9 +4,10 @@ library(dplyr)
 library(plotly)
 library(forcats)
 library(gridExtra)
+library(maps)
 
 dfMoveQuality <- read.csv("MoveQuality.csv")
-dfWorldStats <- read.csv("WorldStats.csv")
+mapdata <- read.csv("WorldStats.csv")
 dfWinRate <- read.csv("WinRate.csv")
 dfGamesData <- read.csv("GamesData.csv")
 
@@ -89,9 +90,48 @@ ui1 <- fluidPage(
   plotOutput("densPlot")
 )
 
+ui2 <- fluidPage(
+  selectInput(inputId = "player", label = "Choose player: ", 
+              choices = c("Kacper", "Krzysiek"), selected = "Kacper"),
+  radioButtons(inputId = "fill_var", label = "Choose variable to fill: ",
+               choices = c("Win Ratio"="WinP","Average Accuracy"= "Accuracy"), selected = "WinP"),
+  plotOutput(outputId = "map"),
+  
+  selectInput("gif", "Select a gif:", 
+              choices = c("Immortal game- Kacper(white)" = "C:/Users/Krzysztof Sawicki/Documents/KW_immortalGame.gif",
+                          "First game- Kacper(white)" = "C:/Users/Krzysztof Sawicki/Documents/KacperPierwszaPartia.gif",
+                          "Immortal game- Krzysiek"="C:/Users/Krzysztof Sawicki/Documents/gigachad-chad.gif",
+                          "First game- Krzysiek(white)"="C:/Users/Krzysztof Sawicki/Documents/Krzysiu_pierwszaPartia.gif")),
+  
+  imageOutput("selected_gif")
+)
+
 
 
 server <- function(input, output) {
+  
+  filtered_mapdata <- reactive({
+    mapdata[mapdata$Player == input$player,]
+  })
+  
+  output$map <- renderPlot({
+    ggplot(filtered_mapdata(), aes_string(x = "long", y = "lat", group = "group", fill = input$fill_var)) +
+      geom_polygon(color = "black") +
+      scale_fill_gradient(name =ifelse(input$fill_var=="WinP", "Win Ratio(%)","Average Accuracy"),
+                          low = ifelse(input$fill_var == "WinP", "#6c9d41", "orange"),
+                          high = ifelse(input$fill_var == "WinP", "#4e7838", "red"),
+                          na.value = ifelse(input$fill_var == "WinP", "#94bb48", "yellow"),
+                          trans = "log10") +
+      theme(axis.text.x = element_blank(),
+            axis.text.y = element_blank(),
+            axis.ticks = element_blank(),
+            axis.title.y = element_blank(),
+            axis.title.x = element_blank(),
+            rect = element_blank(),
+            panel.grid = element_blank(),
+            panel.background = element_rect(fill = 'black')) +
+      labs(title = paste("Player ", input$player, " vs World"))
+  }, bg="transparent")
 
   output$eloPlot <- renderPlot({
     
@@ -103,9 +143,12 @@ server <- function(input, output) {
     ggplot(data = df2, aes(x = date, y = yourElo))+
       geom_point()+
       geom_line()+
-      labs(x = "Date", y = "Rating points")
-    
-  })
+      labs(x = "Date", y = "Rating points")+
+      theme(
+        panel.background = element_rect(fill='transparent'), 
+        plot.background = element_rect(fill='transparent', color=NA), 
+      )
+  }, bg="transparent")
   
   output$moveQualityPlot <- renderPlotly({
     
@@ -120,7 +163,12 @@ server <- function(input, output) {
       labs(x = "Percent", y = "Move type")+
       scale_fill_manual(values = unique(dfMoveQualityPlot$MoveColor))+ 
       scale_x_continuous(expand = c(0,0))+
-      theme(legend.position="none")
+      theme(legend.position="none")+
+      theme(
+        panel.background = element_rect(fill='transparent'), 
+        plot.background = element_rect(fill='transparent', color=NA)
+      )
+    
   })
   
   output$winRatePlot <- renderPlot({
@@ -136,8 +184,12 @@ server <- function(input, output) {
       labs(x = "", y = "Number of Matches") +
       theme_void()+
       theme(legend.position="bottom")+
-      coord_flip() 
-  })
+      coord_flip()+
+      theme(
+        panel.background = element_rect(fill='transparent'), 
+        plot.background = element_rect(fill='transparent', color=NA)
+      )
+  }, bg="transparent")
   
   output$timeLagElo <- renderUI({
     
@@ -158,17 +210,42 @@ server <- function(input, output) {
       geom_density(fill = "#96bc4b")+
       labs(x = "Time", y = "Density", title = "Kacper")+
       scale_x_continuous(expand = c(0,0))+
-      scale_y_continuous(expand = c(0,0))-> p1
+      scale_y_continuous(expand = c(0,0))+
+      theme(
+        panel.background = element_rect(fill='transparent'), 
+        plot.background = element_rect(fill='transparent', color=NA), 
+      )-> p1
     ggplot(data = dfGamesData %>% filter(player == "Krzysiek"), aes(x = endHour))+
       geom_density(fill = "#1bada6")+
       labs(x = "Time", y = "Density", title = "Krzysiek")+
       scale_x_continuous(expand = c(0,0))+
-      scale_y_continuous(expand = c(0,0))->p2
+      scale_y_continuous(expand = c(0,0))+
+      theme(
+        panel.background = element_rect(fill='transparent'), 
+        plot.background = element_rect(fill='transparent', color=NA), 
+      )->p2
     grid.arrange(p1,p2, ncol =2)
-  })
+    
+  }, bg="transparent")
+  
+  output$selected_gif <- renderImage({
+    list(src = input$gif)
+  }, deleteFile = FALSE)
 }
 
-shinyApp(ui = ui1, server = server)
+app_ui <- navbarPage(
+  title = "Szachy",
+  tabPanel("Elo", ui1),
+  tabPanel("Mapa", ui2),
+  theme = bslib::bs_theme( bg = "#FFDFF8", fg = "black", primary = "#FFB5EE",
+                           bootswatch = "minty")
+)
+
+
+shinyApp(ui = app_ui, server = server)
+
+
+
 
 
 
