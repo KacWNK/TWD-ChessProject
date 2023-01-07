@@ -129,7 +129,7 @@ server <- function(input, output) {
             axis.title.x = element_blank(),
             rect = element_blank(),
             panel.grid = element_blank(),
-            panel.background = element_rect(fill = 'black')) +
+            plot.background = element_rect(fill='transparent', color=NA)) +
       labs(title = paste("Player ", input$player, " vs World"))
   }, bg="transparent")
 
