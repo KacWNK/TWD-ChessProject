@@ -1,20 +1,31 @@
-p {
-  color: #dfdede;
-}
-
-a {
-  color: #dfdede;
-}
-
 .ui {
   background-color: #312e2b;
 }
 
-#uisidebar {
-  background-color: #272522;
-  font-size: 1.15rem;
+.inline {
+  display: inline-flex !important;
+  justify-content: space-around;
+  margin-left: 10px;
 }
 
-a { 
-  color: #dfdede !important;
+.inline .field {
+  padding: 0px 30px 0px 30px;
 }
+
+.field label{
+  color: white !important;
+  font-size: 1rem !important;
+}
+
+.clear-bg div {
+  background-color: transparent !important;
+}
+
+.timeStart .input {
+  color: lightgray !important;
+}
+.timeEnd .input {
+  color: lightgray !important;
+}
+
+

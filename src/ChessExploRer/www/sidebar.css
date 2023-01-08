@@ -6,3 +6,8 @@
 #uisidebar .item { 
   color: #dfdede !important;
 }
+
+#uisidebar .active{ 
+  color: #673003 !important;
+}
+

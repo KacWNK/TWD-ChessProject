@@ -5,10 +5,17 @@
   color: black !important;
 }
 
-.dsHeader #creator {
+#creator-container{
+  width: 13rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  margin-right: 1rem;
+}
+
+#creator {
   color: #848a90;
   animation: fadeIn 2s;
-  width: 13rem;
 }
 
 @keyframes fadeInOut {
