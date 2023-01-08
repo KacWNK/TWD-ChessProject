@@ -59,7 +59,7 @@ for json_game in tqdm(json_reader[:-1]):
     # 1 to wygrana
     # 4-4 to remis
     move_times = json_game["moveTimestamps"].split(",")
-    is_playing_white = json_game["player1Name"] == "Chessmaster2799"
+    is_playing_white = json_game["player1Name"] == "KriSt0f23"
     if is_playing_white:
         your_name = json_game["player1Name"]
         enemy_name = json_game["player2Name"]
