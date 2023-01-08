@@ -1,0 +1,17 @@
+.dsHeader {
+  background-color: #dbd9d7 !important;
+}
+.dsHeader a {
+  color: black !important;
+}
+
+.dsHeader #creator {
+  color: #848a90;
+  animation: fadeIn 2s;
+  width: 13rem;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}

@@ -1,0 +1,20 @@
+p {
+  color: #dfdede;
+}
+
+a {
+  color: #dfdede;
+}
+
+.ui {
+  background-color: #312e2b;
+}
+
+#uisidebar {
+  background-color: #272522;
+  font-size: 1.15rem;
+}
+
+a { 
+  color: #dfdede !important;
+}

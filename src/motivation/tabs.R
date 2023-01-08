@@ -1,5 +1,6 @@
 library(shiny)
 library(shiny.semantic)
+require(semantic.dashboard)
 
 ui <- semanticPage(
   action_button("changetab", "Select First Tab!"),
