@@ -107,7 +107,7 @@ compTabRow1 <- div(
       plotOutput("winRatePlot"),
       width = 10
     ),
-    container_style = "padding-left: 20px"
+    container_style = "margin-left: 20px; border: solid 2px #dfdede; border-radius: 10px"
   )
 )
 
@@ -140,7 +140,7 @@ compTabRow2 <- div(
       plotlyOutput("moveQualityPlot"),
       width = 10
     ),
-    container_style = "padding-left: 20px"
+    container_style = "margin-left: 20px; border: solid 2px #dfdede; border-radius: 10px"
   ) 
 )
 
@@ -167,7 +167,7 @@ compTabRow3 <- div(
       plotOutput("eloPlot"),
       width = 10
     ),
-    container_style = "padding-left: 20px"
+    container_style = "margin-left: 20px; border: solid 2px #dfdede; border-radius: 10px"
   ) 
 )
 
@@ -178,6 +178,7 @@ compTab <- semanticPage(
       compTabRow2,
       compTabRow3,
       div(class="row",
+          style = "margin-left: 20px; border: solid 2px #dfdede; border-radius: 10px",
           plotOutput("densPlot")
       )
   )

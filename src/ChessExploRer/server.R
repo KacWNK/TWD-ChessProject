@@ -85,9 +85,15 @@ shinyServer(function(input, output) {
     
     ggplot(data = df2, aes(x = date, y = yourElo))+
       geom_point()+
-      geom_line()+
+      geom_line(
+        color = "#f9a03f"
+      ) +
       labs(x = "Date", y = "Rating points")+
       theme(
+        axis.title.x=element_text(size=14, colour="white"),
+        axis.title.y=element_text(size=14, colour="white"),
+        axis.text.x=element_text(size=8, colour="#dfdede"),
+        axis.text.y=element_text(size=8, colour="#dfdede"),
         panel.background = element_rect(fill='transparent'), 
         plot.background = element_rect(fill='transparent', color=NA), 
       )
@@ -107,6 +113,10 @@ shinyServer(function(input, output) {
       scale_x_continuous(expand = c(0,0))+
       theme(legend.position="none")+
       theme(
+        axis.title.x=element_text(size=14, colour="white"),
+        axis.title.y=element_text(size=14, colour="white"),
+        axis.text.x=element_text(size=10, colour="#dfdede"),
+        axis.text.y=element_text(size=10, colour="#dfdede"),
         panel.background = element_rect(fill='transparent'), 
         plot.background = element_rect(fill='transparent', color=NA)
       )
@@ -123,11 +133,15 @@ shinyServer(function(input, output) {
       geom_col(width = 0.5) +
       geom_text(aes(label = paste(Percentages, "%")), position = position_stack(vjust = 0.5)) +
       scale_fill_manual(values = dfWinRatePlot$Colors) +
-      labs(x = "", y = "Number of Matches") +
+      labs(x = "", y = "End Result") +
       theme_void()+
       theme(legend.position="bottom")+
       coord_flip()+
       theme(
+        axis.title.x=element_text(size=14, colour="white"),
+        axis.title.y=element_text(size=14, colour="white"),
+        legend.text = element_text(size=8, colour = "white"),
+        legend.title = element_text(size=8, colour = "white"),
         panel.background = element_rect(fill='transparent'), 
         plot.background = element_rect(fill='transparent', color=NA)
       )
@@ -165,6 +179,9 @@ shinyServer(function(input, output) {
       scale_x_continuous(expand = c(0,0))+
       scale_y_continuous(expand = c(0,0))+
       theme(
+        axis.title.x=element_text(size=14, colour="white"),
+        axis.title.y=element_text(size=14, colour="white"),
+        
         panel.background = element_rect(fill='transparent'), 
         plot.background = element_rect(fill='transparent', color=NA), 
       )-> p1
@@ -174,6 +191,9 @@ shinyServer(function(input, output) {
       scale_x_continuous(expand = c(0,0))+
       scale_y_continuous(expand = c(0,0))+
       theme(
+        axis.title.x=element_text(size=14, colour="white"),
+        axis.title.y=element_text(size=14, colour="white"),
+        axis.text.x = element_text(size=10, colour="white"),
         panel.background = element_rect(fill='transparent'), 
         plot.background = element_rect(fill='transparent', color=NA), 
       )->p2
