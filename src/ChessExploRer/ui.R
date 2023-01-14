@@ -63,7 +63,8 @@ mapTab <- semanticPage(
     div(class = "row",
       multiple_radio(
         "fill_var", "Select type: ",
-        c("Win Ratio"="WinP", "Average Accuracy" = "Accuracy"),
+        choices = c("Win Ratio", "Average Accuracy"),
+        choices_value = c("WinP", "Accuracy"),
         position = "inline"
       )
     ),

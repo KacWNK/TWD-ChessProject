@@ -41,7 +41,7 @@ shinyServer(function(input, output) {
       ggplot(aes_string(x = "long", y = "lat", group = "group", fill = input$fill_var)) +
       geom_polygon(color = "black") +
       scale_fill_gradient(
-        name = ifelse(input$fill_var == "WinP", "Win Ratio(%)", "Average Accuracy"),
+        name = ifelse(input$fill_var == "WinP", "Win Ratio (%)", "Average Accuracy"),
         low = ifelse(input$fill_var == "WinP", "#6c9d41", "orange"),
         high = ifelse(input$fill_var == "WinP", "#4e7838", "red"),
         na.value = ifelse(input$fill_var == "WinP", "#94bb48", "yellow"),
@@ -70,7 +70,7 @@ shinyServer(function(input, output) {
       ggplot(aes_string(x = "long", y = "lat", group = "group", fill = input$fill_var)) +
       geom_polygon(color = "black") +
       scale_fill_gradient(
-        name = ifelse(input$fill_var == "WinP", "Win Ratio(%)", "Average Accuracy"),
+        name = ifelse(input$fill_var == "WinP", "Win Ratio (%)", "Average Accuracy"),
         low = ifelse(input$fill_var == "WinP", "#6c9d41", "orange"),
         high = ifelse(input$fill_var == "WinP", "#4e7838", "red"),
         na.value = ifelse(input$fill_var == "WinP", "#94bb48", "yellow"),
