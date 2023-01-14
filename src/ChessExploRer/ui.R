@@ -7,7 +7,7 @@ library(semantic.dashboard)
 
 source("server.R")
 
-### HEADER
+# HEADER
 header <- dashboardHeader(
   includeCSS("./www/header.css"),
   class = "dsHeader",
@@ -20,39 +20,50 @@ header <- dashboardHeader(
   )
 )
 
-### SIDEBAR
-sidebar <- dashboardSidebar(size = "thin", color = "brown",
+# SIDEBAR
+sidebar <- dashboardSidebar(
+  size = "thin",
+  color = "brown",
   sidebarMenu(
     includeCSS("./www/sidebar.css"),
-    menuItem(text = "Home", tabName = "home", icon = icon("home")),
-    menuItem(text = "Competition", tabName = "comp", icon = icon("trophy")),
-    menuItem(text = "Map", tabName = "map", icon = icon("map")),
-    menuItem(text = "Games", tabName = "games", icon = icon("chess board", lib = "font-awesome")),
-    menuItem(text = "Reporitory", href = "https://github.com/KacWNK/TWD-ChessProject", icon = icon("github"))
+    menuItem(text = "Home",
+      tabName = "home",
+      icon = icon("home")),
+    menuItem(text = "Competition",
+      tabName = "comp",
+      icon = icon("trophy")),
+    menuItem(text = "Map",
+      tabName = "map",
+      icon = icon("map")),
+    menuItem(text = "Games",
+      tabName = "games",
+      icon = icon("chess board",
+        lib = "font-awesome")),
+    menuItem(text = "Reporitory",
+      href = "https://github.com/KacWNK/TWD-ChessProject",
+      icon = icon("github"))
   )
 )
 
-### TABS
-
-##### HOME TAB TODO
+###### HOME TAB ###### TODO
 homeTab <- semanticPage(
   title = "My page",
   div(class = "flex center ",
-      div(class = "ui button", 
-          icon("user"),  
+      div(class = "ui button",
+          icon("user"),
           "Icon button"
       )
   )
 )
 
-##### MAP TAB
+###### MAP TAB ######
 mapTab <- semanticPage(
   title = "Map",
   div(class = "ui grid",
     div(class = "row",
       multiple_radio(
         "fill_var", "Select type: ",
-        c("Win Ratio"="WinP","Average Accuracy"= "Accuracy"),
+        c("Win Ratio"="WinP", "Average Accuracy" = "Accuracy"),
         position = "inline"
       )
     ),
@@ -60,23 +71,26 @@ mapTab <- semanticPage(
         div(class = "column",
             plotOutput(outputId = "mapKacper")
         ),
-        div(class = "column", 
+        div(class = "column",
             plotOutput(outputId = "mapKrzysiek")
         )
     )
   )
 )
 
-###### GAMES TAB
+###### GAMES TAB #######
 gamesTab <- semanticPage(
   tilte = "Games",
   div(class = "ui grid",
       div(class = "row",
-          selectInput("gif", "Select a gif:", 
-                      choices = c("Immortal game- Kacper(white)" = "./resources/KW_immortalGame.gif",
-                                  "First game- Kacper(white)" = "./resources/KacperPierwszaPartia.gif",
-                                  "Immortal game- Krzysiek"="./resources/gigachad-chad.gif",
-                                  "First game- Krzysiek(white)"="./resources/Krzysiu_pierwszaPartia.gif")),
+      selectInput(
+        "gif", "Select a gif:",
+        choices = c(
+          "Immortal game- Kacper(white)" = "./resources/KW_immortalGame.gif",
+          "First game- Kacper(white)" = "./resources/KacperPierwszaPartia.gif",
+          "Immortal game- Krzysiek" = "./resources/gigachad-chad.gif",
+          "First game- Krzysiek(white)" = "./resources/Krzysiu_pierwszaPartia.gif"
+        )),
       ),
       div(class = "row",
           imageOutput("selected_gif")
@@ -84,7 +98,9 @@ gamesTab <- semanticPage(
   )
 )
 
-###### COMPETITION TAB
+###### COMPETITION TAB #######
+panel_style <- "margin-left: 20px; border: solid 2px #dfdede; border-radius: 10px;"
+### MAIN PLOT 1 - WIN RATE
 compTabRow1 <- div(
   class = "row clear-bg",
   sidebar_layout(
@@ -107,10 +123,11 @@ compTabRow1 <- div(
       plotOutput("winRatePlot"),
       width = 10
     ),
-    container_style = "margin-left: 20px; border: solid 2px #dfdede; border-radius: 10px"
+    container_style = panel_style
   )
 )
 
+### MAIN PLOT 2 - MOVE QUALITY
 compTabRow2 <- div(
   class = "row clear-bg",
   sidebar_layout(
@@ -140,10 +157,11 @@ compTabRow2 <- div(
       plotlyOutput("moveQualityPlot"),
       width = 10
     ),
-    container_style = "margin-left: 20px; border: solid 2px #dfdede; border-radius: 10px"
-  ) 
+    container_style = panel_style
+  )
 )
 
+### MAIN PLOT 3 - ELO
 compTabRow3 <- div(
   class = "row clear-bg",
   sidebar_layout(
@@ -167,24 +185,26 @@ compTabRow3 <- div(
       plotOutput("eloPlot"),
       width = 10
     ),
-    container_style = "margin-left: 20px; border: solid 2px #dfdede; border-radius: 10px"
-  ) 
+    container_style = panel_style
+  )
 )
 
+### MAIN PLOTS COMBINED
 compTab <- semanticPage(
   title = "Competition page",
   div(class = "ui grid",
       compTabRow1,
       compTabRow2,
       compTabRow3,
-      div(class="row",
-          style = "margin-left: 20px; border: solid 2px #dfdede; border-radius: 10px",
-          plotOutput("densPlot")
+      div(
+        class = "row",
+        style = panel_style,
+        plotOutput("densPlot")
       )
   )
 )
 
-### BODY 
+# BODY
 body <- dashboardBody(class = "dsBody", tabItems(
   includeCSS("./www/body.css"),
   tabItem(tabName = "home", homeTab),
@@ -193,13 +213,11 @@ body <- dashboardBody(class = "dsBody", tabItems(
   tabItem(tabName = "games", gamesTab)
 ))
 
-
-### RUN APP
+# RUN APP
 shinyUI(dashboardPage(
-  title = 'ChessExploRer',
+  title = "ChessExploRer",
   header, sidebar, body,
   theme = "slate",
   class = "dsBodyOuter",
   sidebar_and_body_container_class = "dsPage"
 ))
-
