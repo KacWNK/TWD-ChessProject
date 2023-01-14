@@ -53,6 +53,9 @@ shinyServer(function(input, output) {
         axis.ticks = element_blank(),
         axis.title.y = element_blank(),
         axis.title.x = element_blank(),
+        plot.title = element_text(size = 14, colour = "white"),
+        legend.title = element_text(size = 12, colour = "white"),
+        legend.text = element_text(size = 10, colour = "white"),
         rect = element_blank(),
         panel.grid = element_blank(),
         plot.background = element_rect(fill = "transparent", color = NA)
@@ -79,6 +82,9 @@ shinyServer(function(input, output) {
         axis.ticks = element_blank(),
         axis.title.y = element_blank(),
         axis.title.x = element_blank(),
+        plot.title = element_text(size = 14, colour = "white"),
+        legend.title = element_text(size = 12, colour = "white"),
+        legend.text = element_text(size = 10, colour = "white"),
         rect = element_blank(),
         panel.grid = element_blank(),
         plot.background = element_rect(fill = "transparent", color = NA)) +

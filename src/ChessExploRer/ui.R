@@ -59,7 +59,7 @@ homeTab <- semanticPage(
 ###### MAP TAB ######
 mapTab <- semanticPage(
   title = "Map",
-  div(class = "ui grid",
+  div(class = "ui grid full-span",
     div(class = "row",
       multiple_radio(
         "fill_var", "Select type: ",
@@ -68,11 +68,12 @@ mapTab <- semanticPage(
       )
     ),
     div(class = "two column row",
-        div(class = "column",
-            plotOutput(outputId = "mapKacper")
+        div(
+          class = "column",
+          plotOutput(outputId = "mapKacper")
         ),
         div(class = "column",
-            plotOutput(outputId = "mapKrzysiek")
+          plotOutput(outputId = "mapKrzysiek")
         )
     )
   )
