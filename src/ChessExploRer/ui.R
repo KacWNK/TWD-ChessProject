@@ -136,14 +136,14 @@ mapTab <- semanticPage(
       div(
         class = "column",
         shinycssloaders::withSpinner(
-          plotOutput(outputId = "mapKacper"),
+          plotlyOutput(outputId = "mapKacper"),
           type = 4,
           color = "#f9a03f"
         )
       ),
       div(class = "column",
         shinycssloaders::withSpinner(
-          plotOutput(outputId = "mapKrzysiek"),
+          plotlyOutput(outputId = "mapKrzysiek"),
           type = 4,
           color = "#f9a03f"
         ),

@@ -110,15 +110,19 @@ shinyServer(function(input, output) {
   
 
   ## Map for kacper
-  output$mapKacper <- renderPlot({
-    mapdata[mapdata$Player == "Kacper", ] %>%
+  output$mapKacper <- renderPlotly({
+    fig <- mapdata[mapdata$Player == "Kacper", ] %>%
       ggplot(aes_string(x = "long", y = "lat", group = "group", fill = input$fill_var)) +
-      geom_polygon(color = "black") +
+      geom_polygon(
+        color = "white",
+        size = 0.2,
+        aes(tooltip = Country)
+      ) +
       scale_fill_gradient(
         name = ifelse(input$fill_var == "WinP", "Win Ratio (%)", "Average Accuracy"),
-        low = ifelse(input$fill_var == "WinP", "#6c9d41", "orange"),
-        high = ifelse(input$fill_var == "WinP", "#4e7838", "red"),
-        na.value = ifelse(input$fill_var == "WinP", "#94bb48", "yellow"),
+        low = ifelse(input$fill_var == "WinP", "#7ed036", "#532808"),
+        high = ifelse(input$fill_var == "WinP", "#00441b", "#f3cf30"),
+        na.value = ifelse(input$fill_var == "WinP", "white", "white"),
         trans = "log10"
       ) +
       theme(
@@ -135,19 +139,28 @@ shinyServer(function(input, output) {
         plot.background = element_rect(fill = "transparent", color = NA)
       ) +
       labs(title = paste("Player Kacper vs World"))
-  }, bg = "transparent")
+    ggplotly(fig) %>%
+      layout(
+        paper_bgcolor = "rgba(0,0,0,0)",
+        plot_bgcolor = "rgba(0,0,0,0)"
+      )
+  })
 
 
   ## Map for krzysiek
-  output$mapKrzysiek <- renderPlot({
-    mapdata[mapdata$Player == "Krzysiek", ] %>%
+  output$mapKrzysiek <- renderPlotly({
+    fig <- mapdata[mapdata$Player == "Krzysiek", ] %>%
       ggplot(aes_string(x = "long", y = "lat", group = "group", fill = input$fill_var)) +
-      geom_polygon(color = "black") +
+      geom_polygon(
+        color = "white",
+        size = 0.2,
+        aes(tooltip = Country)
+      ) +
       scale_fill_gradient(
         name = ifelse(input$fill_var == "WinP", "Win Ratio (%)", "Average Accuracy"),
-        low = ifelse(input$fill_var == "WinP", "#6c9d41", "orange"),
-        high = ifelse(input$fill_var == "WinP", "#4e7838", "red"),
-        na.value = ifelse(input$fill_var == "WinP", "#94bb48", "yellow"),
+        low = ifelse(input$fill_var == "WinP", "#7ed036", "#532808"),
+        high = ifelse(input$fill_var == "WinP", "#00441b", "#f3cf30"),
+        na.value = ifelse(input$fill_var == "WinP", "white", "white"),
         trans = "log10"
       ) +
       theme(
@@ -163,7 +176,12 @@ shinyServer(function(input, output) {
         panel.grid = element_blank(),
         plot.background = element_rect(fill = "transparent", color = NA)) +
       labs(title = "Player Krzysiek vs World")
-  }, bg = "transparent")
+    ggplotly(fig) %>%
+      layout(
+        paper_bgcolor = "rgba(0,0,0,0)",
+        plot_bgcolor = "rgba(0,0,0,0)"
+      )
+  })
 
 
   # ELo change plot
