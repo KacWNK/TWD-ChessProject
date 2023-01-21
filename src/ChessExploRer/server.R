@@ -6,6 +6,10 @@ library(plotly)
 library(forcats)
 library(gridExtra)
 library(maps)
+library(sysfonts)
+library(countrycode)
+
+font_add_google("Roboto")
 
 CREATORS <- c(
   "Krzysztof Sawicki",
@@ -17,11 +21,26 @@ dfMoveQuality <- read.csv("./resources/MoveQuality.csv")
 mapdata <- read.csv("./resources/WorldStats.csv")
 dfWinRate <- read.csv("./resources/WinRate.csv")
 dfGamesData <- read.csv("./resources/GamesData.csv")
+dfFIDEData <- read.csv("./resources/players_in_chess.csv")
 
 dfGamesData <- dfGamesData %>%
   mutate(date = as.Date(date)) %>%
   mutate(endHour = substring(endHour, 1, nchar(endHour) - 3)) %>%
   mutate(endHour = as.numeric(gsub(":", "\\.", endHour)))
+
+dfFIDE <- dfFIDEData %>%
+  group_by(country) %>%
+  summarise(
+    average_rating = mean(rating, na.rm = TRUE),
+    max_rating = max(rating, na.rm = TRUE),
+    number_of_fide_players = n()
+  ) %>%
+  left_join(df[c("name", "country", "rating")], by = c("country" = "country", "max_rating" = "rating")) %>%
+  mutate(
+    full_country_name = countrycode(country, origin = 'iso3c', destination = 'country.name'),
+    .keep = "all"
+  )
+
 
 
 shinyServer(function(input, output) {
@@ -33,7 +52,61 @@ shinyServer(function(input, output) {
     later::later(function() update_creator(index), interval)
   }
   update_creator(1)
-
+  
+  ## Home side map
+  output$mapFIDE <- renderPlotly({
+    fig <- plot_geo(dfFIDE) %>%
+      add_trace(
+        z = ~number_of_fide_players,
+        color = ~number_of_fide_players,
+        colors = "Oranges",
+        text = paste(
+          "Country:", dfFIDE$full_country_name,
+          "<br>Best Player:", dfFIDE$name,
+          "<br>Max FIDE Rating:", dfFIDE$max_rating,
+          "<br>Average Country Rating:", round(dfFIDE$average_rating, digits = 2)
+        ),
+        locations = ~country
+      ) %>%
+      colorbar(
+        title = list(
+          text = "Number of FIDE players",
+          font = list(color = "white")
+        ),
+        tickfont = list(size = 14, color = "white")
+      ) %>%
+      layout(
+        height = 800,
+        paper_bgcolor = "rgba(0,0,0,0)",
+        title = list(
+          y = 0.99,
+          text = "Number of FIDE players per country",
+          font = list(
+            color = "white",
+            family = "Roboto",
+            size = 30
+          )
+        ),
+        legend = list(
+          font = list(
+            color = "white",
+            family = "Roboto",
+            size = 14
+          )
+        ),
+        geo = list(
+          showframe = FALSE,
+          showcoastlines = TRUE,
+          showland = TRUE,
+          landcolor = "#312e2b",
+          showocean = FALSE,
+          projection = list(type = "Mercator"),
+          bgcolor = "transparent"
+        )
+      )
+    ggplotly(fig)
+  })
+  
 
   ## Map for kacper
   output$mapKacper <- renderPlot({
@@ -64,7 +137,7 @@ shinyServer(function(input, output) {
   }, bg = "transparent")
 
 
-  ## MAP FOR KRZYSIEK
+  ## Map for krzysiek
   output$mapKrzysiek <- renderPlot({
     mapdata[mapdata$Player == "Krzysiek", ] %>%
       ggplot(aes_string(x = "long", y = "lat", group = "group", fill = input$fill_var)) +
@@ -107,7 +180,7 @@ shinyServer(function(input, output) {
         method = "loess",
         se = TRUE,
         alpha = 0.3,
-        size = 10
+        linewidth = 10
       ) +
       geom_line(
         color = "#1bada6",
@@ -175,7 +248,6 @@ shinyServer(function(input, output) {
       labs(x = "", y = "End Result") +
       theme_void() +
       theme(legend.position = "bottom") +
-      coord_flip() +
       theme(
         axis.title.x = element_text(size = 14, colour = "white"),
         axis.title.y = element_text(size = 14, colour = "white"),
@@ -184,7 +256,7 @@ shinyServer(function(input, output) {
         panel.background = element_rect(fill = "transparent"),
         plot.background = element_rect(fill = "transparent", color = NA)
       )
-  }, bg = "transparent")
+  }, background = "transparent")
   
   
   output$timeLagElo <- renderUI({

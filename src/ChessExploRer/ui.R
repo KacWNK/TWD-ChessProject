@@ -1,6 +1,7 @@
 library(shiny)
 library(shiny.semantic)
 library(semantic.dashboard)
+library(shinycssloaders)
 
 # options(semantic.themes = TRUE)
 # options(shiny.custom.semantic = "www/")
@@ -46,13 +47,76 @@ sidebar <- dashboardSidebar(
 )
 
 ###### HOME TAB ###### TODO
+
+### FAQ
+faq <- list(
+  list(
+    title = "Why was this project created?",
+    content = p(class = "faq-content",
+      "There once was a assigment worth 1/4 of your grade so we decided to make awesome"
+    )
+  ),
+  list(
+    title = "Where did we get the data?",
+    content = p("Data was collected or scarped from www.chess.com and www.kaggle.com")
+  ),
+  list(
+    title = "What was our inspiration?",
+    content = p("To create a progress tracker for our chess journey")
+  ),
+  list(
+    title = "How long it took?",
+    content = p("About 30 work hours spend on research and app development")
+  )
+)
+
 homeTab <- semanticPage(
-  title = "My page",
-  div(class = "flex center ",
-      div(class = "ui button",
-          icon("user"),
-          "Icon button"
+  title = "Start page",
+  div(
+    class = "ui grid full-span",
+    div(class = "row h-70",
+      div(class = "four wide column",
+        div(class = "ui statistics",
+          div(class = "statistic",
+            div(class = "value text-grey", 2),
+            div(class = "label text-white", "Player game")
+          ),
+          div(class = "statistic",
+            div(class = "value text-grey", 16),
+            div(class = "label text-white", "Starting moves")
+          ),
+          div(class = "statistic",
+            div(class = "value text-grey", 32),
+            div(class = "label text-white", "Chess pieces")
+          ),
+          div(class = "statistic",
+            div(class = "value text-grey", "10 Milion Milion"),
+            div(class = "label text-white", "Games Played")
+          ),
+          div(class = "statistic",
+            div(class = "value text-grey", span(
+              "Around 10", tags$sup("111")
+            )),
+            div(class = "label text-white", "Possible Settings")
+          )
+        )
+      ),
+      div(class = "twelve wide column center",
+        shinycssloaders::withSpinner(
+          plotlyOutput(outputId = "mapFIDE"),
+          type = 4,
+          color = "#f9a03f"
+        )
+      ),
+    ),
+    div(class = "row h-30",
+      div(class = "faq",
+        accordion(faq,
+          fluid = TRUE,
+          styled = FALSE
+        )
       )
+    )
   )
 )
 
@@ -101,7 +165,7 @@ gamesTab <- semanticPage(
 )
 
 ###### COMPETITION TAB #######
-panel_style <- "margin-left: 20px; border: solid 2px #dfdede; border-radius: 10px;"
+panel_style <- "20px; border: solid 2px #dfdede; border-radius: 10px;"
 ### MAIN PLOT 1 - WIN RATE
 compTabRow1 <- div(
   class = "row clear-bg",
@@ -195,14 +259,30 @@ compTabRow3 <- div(
 compTab <- semanticPage(
   title = "Competition page",
   div(class = "ui grid",
-      compTabRow1,
-      compTabRow2,
-      compTabRow3,
-      div(
-        class = "row",
-        style = panel_style,
-        plotOutput("densPlot")
+    div(class = "row",
+      menu(
+        class = "player-game-selector",
+        menu_header("Player: "),
+        menuItem("Kacper",
+          selected = TRUE
+        ),
+        menuItem("Krzysztof"),
+        menu_divider(),
+        menu_header("Game type: "),
+        menu_header("Bluet",
+          selected = TRUE
+        ),
+        menuItem("Blitz"),
+        menuItem("Rapid")
       )
+    ),
+    compTabRow1,
+    compTabRow2,
+    compTabRow3,
+    div(class = "row",
+      style = panel_style,
+      plotOutput("densPlot")
+    )
   )
 )
 

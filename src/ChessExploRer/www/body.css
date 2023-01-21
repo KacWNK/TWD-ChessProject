@@ -28,6 +28,73 @@
   color: lightgray !important;
 }
 
+#shiny-tab-home > .grid {
+  height: 100%;
+}
+
+.padded > .grid {
+  margin: 0px 5px 20px 10px !important;
+}
+
 .full-span {
   width: 100%;
+  height: 100%;
+}
+
+.accordion > .title {
+  font-size: 1.1 !important;
+  color: #dfdede !important;
+}
+.faq {
+  position: relative;
+  bottom: 0%;
+}
+
+.flex-column-rev {
+  display: flex !important;
+  flex-direction: column-reverse !important;
+}
+
+.flex-column {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.h-30 {
+  height: 30%;
+}
+
+.h-70 {
+  height: 70%;
+}
+
+.player-game-selector{
+  border: 2px #dcdbdb solid !important;
+}
+
+.player-game-selector > .item {
+  background-color: #141818 !important;
+  color: white !important;
+}
+
+.player-game-selector > a:hover {
+  background-color: #534e49 !important;
+}
+
+.player-game-selector > .divider {
+  width: 2px;
+  background-color: #dcdbdb;
+}
+
+.text-grey {
+  color: #534e49 !important;
+}
+
+.text-white {
+  color: #dcdbdb !important;
+}
+
+.statistic {
+  margin-top: 10% !important;
+  margin-bottom: 10% !important;
 }
