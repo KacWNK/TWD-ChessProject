@@ -78,23 +78,23 @@ homeTab <- semanticPage(
       div(class = "four wide column",
         div(class = "ui statistics",
           div(class = "statistic",
-            div(class = "value text-grey", 2),
+            div(class = "value text-orange", 2),
             div(class = "label text-white", "Player game")
           ),
           div(class = "statistic",
-            div(class = "value text-grey", 16),
+            div(class = "value text-orange", 16),
             div(class = "label text-white", "Starting moves")
           ),
           div(class = "statistic",
-            div(class = "value text-grey", 32),
+            div(class = "value text-orange", 32),
             div(class = "label text-white", "Chess pieces")
           ),
           div(class = "statistic",
-            div(class = "value text-grey", "10 Milion Milion"),
+            div(class = "value text-orange", "10 Milion Milion"),
             div(class = "label text-white", "Games Played")
           ),
           div(class = "statistic",
-            div(class = "value text-grey", span(
+            div(class = "value text-orange", span(
               "Around 10", tags$sup("111")
             )),
             div(class = "label text-white", "Possible Settings")

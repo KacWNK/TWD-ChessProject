@@ -35,7 +35,7 @@ dfFIDE <- dfFIDEData %>%
     max_rating = max(rating, na.rm = TRUE),
     number_of_fide_players = n()
   ) %>%
-  left_join(df[c("name", "country", "rating")], by = c("country" = "country", "max_rating" = "rating")) %>%
+  left_join(dfFIDEData[c("name", "country", "rating")], by = c("country" = "country", "max_rating" = "rating")) %>%
   mutate(
     full_country_name = countrycode(country, origin = 'iso3c', destination = 'country.name'),
     .keep = "all"
