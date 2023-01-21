@@ -17,7 +17,7 @@ header <- dashboardHeader(
   title = "Chess ExploRer",
   right = div(
     id = "creator-container",
-    textOutput("creator"),
+    textOutput("creator")
   )
 )
 
@@ -97,7 +97,7 @@ homeTab <- semanticPage(
             div(class = "value text-orange", span(
               "Around 10", tags$sup("111")
             )),
-            div(class = "label text-white", "Possible Settings")
+            div(class = "label text-white", "Possible Chess Positions")
           )
         )
       ),
@@ -133,13 +133,21 @@ mapTab <- semanticPage(
       )
     ),
     div(class = "two column row",
-        div(
-          class = "column",
-          plotOutput(outputId = "mapKacper")
-        ),
-        div(class = "column",
-          plotOutput(outputId = "mapKrzysiek")
+      div(
+        class = "column",
+        shinycssloaders::withSpinner(
+          plotOutput(outputId = "mapKacper"),
+          type = 4,
+          color = "#f9a03f"
         )
+      ),
+      div(class = "column",
+        shinycssloaders::withSpinner(
+          plotOutput(outputId = "mapKrzysiek"),
+          type = 4,
+          color = "#f9a03f"
+        ),
+      )
     )
   )
 )
@@ -166,64 +174,41 @@ gamesTab <- semanticPage(
 
 ###### COMPETITION TAB #######
 panel_style <- "20px; border: solid 2px #dfdede; border-radius: 10px;"
-### MAIN PLOT 1 - WIN RATE
-compTabRow1 <- div(
-  class = "row clear-bg",
-  sidebar_layout(
-    sidebar_panel(
-      multiple_radio("typeWinRate",
-                   "Choose time control",
-                   selected = unique(dfWinRate$Type)[1],
-                   choices = c("Bullet", "Blitz", "Rapid"),
-                   choices_value = unique(dfWinRate$Type)
-      ),
-      br(), br(),
-      multiple_radio("playerWinRate",
-                   "Select a player",
-                   selected = unique(dfWinRate$Player)[1],
-                   choices = unique(dfWinRate$Player)
-      ),
-      width = 2
-    ),
-    main_panel(
-      plotOutput("winRatePlot"),
-      width = 10
-    ),
-    container_style = panel_style
-  )
-)
-
 ### MAIN PLOT 2 - MOVE QUALITY
 compTabRow2 <- div(
   class = "row clear-bg",
-  sidebar_layout(
-    sidebar_panel(
-      multiple_radio("colorMoveQuality",
-                     "Choose color of pieces",
-                     selected = unique(dfMoveQuality$Color)[1],
-                     choices = c("White", "Black", "White and black"),
-                     choices_value = unique(dfMoveQuality$Color)
+  div(class = "ten wide column",
+    sidebar_layout(
+      sidebar_panel(
+        multiple_radio(
+          "colorMoveQuality",
+          "Choose color of pieces",
+          selected = unique(dfMoveQuality$Color)[1],
+          choices = c("White", "Black", "White and black"),
+          choices_value = unique(dfMoveQuality$Color)
+        ),
+        width = 2
       ),
-      br(), br(),
-      multiple_radio("playerMoveQuality",
-                     "Select a player",
-                     selected = unique(dfMoveQuality$Player)[1],
-                     choices = unique(dfMoveQuality$Player)
+      main_panel(
+        shinycssloaders::withSpinner(
+          plotlyOutput("moveQualityPlot"),
+          type = 4,
+          color = "#f9a03f"
+        ),
+        width = 10
       ),
-      br(), br(),
-      multiple_radio("typeMoveQuality",
-                     "Choose time control",
-                     selected = unique(dfMoveQuality$Type)[1],
-                     choices = c("Bullet", "Blitz", "Rapid"),
-                     choices_value = unique(dfMoveQuality$Type)
-      ),
-      width = 2
-    ),
-    main_panel(
-      plotlyOutput("moveQualityPlot"),
-      width = 10
-    ),
-    container_style = panel_style
+      container_style = panel_style
+    )
+  ),
+  div(class = "four wide column",
+    div(id = "winRate",
+      style = panel_style,
+      shinycssloaders::withSpinner(
+        plotlyOutput("winRatePlot"),
+        type = 4,
+        color = "#f9a03f"
+      )
+    )
   )
 )
 
@@ -232,23 +217,15 @@ compTabRow3 <- div(
   class = "row clear-bg",
   sidebar_layout(
     sidebar_panel(
-      multiple_radio("playerElo",
-                   "Select a player",
-                   selected = unique(dfGamesData$player)[1],
-                   choices = unique(dfGamesData$player)
-      ),
-      br(), br(),
-      multiple_radio("typeElo",
-                   "Choose time control",
-                   selected = unique(dfGamesData$timeControl)[1],
-                   choices = unique(dfGamesData$timeControl)
-      ),
-      br(), br(),
       uiOutput("timeLagElo"),
       width = 2
     ),
     main_panel(
-      plotOutput("eloPlot"),
+      shinycssloaders::withSpinner(
+        plotOutput("eloPlot"),
+        type = 4,
+        color = "#f9a03f"
+      ),
       width = 10
     ),
     container_style = panel_style
@@ -260,25 +237,28 @@ compTab <- semanticPage(
   title = "Competition page",
   div(class = "ui grid",
     div(class = "row",
-      menu(
-        class = "player-game-selector",
-        menu_header("Player: "),
-        menuItem("Kacper",
-          selected = TRUE
+      div(class = "four wide column",
+        multiple_radio(
+          "playerComp",
+          "Select a player:",
+          selected = unique(dfMoveQuality$Player)[1],
+          choices = unique(dfMoveQuality$Player),
+          position = "inline"
         ),
-        menuItem("Krzysztof"),
-        menu_divider(),
-        menu_header("Game type: "),
-        menu_header("Bluet",
-          selected = TRUE
-        ),
-        menuItem("Blitz"),
-        menuItem("Rapid")
+      ),
+      div(class = "four wide column",
+        multiple_radio(
+          "timeControlComp",
+          "Choose time control:",
+          selected = unique(dfMoveQuality$Type)[1],
+          choices = c("Bullet", "Blitz", "Rapid"),
+          choices_value = unique(dfMoveQuality$Type),
+          position = "inline"
+        )
       )
     ),
-    compTabRow1,
-    compTabRow2,
     compTabRow3,
+    compTabRow2,
     div(class = "row",
       style = panel_style,
       plotOutput("densPlot")

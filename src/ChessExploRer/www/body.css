@@ -102,3 +102,75 @@
   margin-top: 10% !important;
   margin-bottom: 10% !important;
 }
+
+#timeControlComp > label {
+  white-space: nowrap !important;
+}
+
+.grouped > .field {
+  margin-top: 1em !important;
+  margin-bottom: 0 !important;
+}
+
+.checkbox > input {
+  accent-color: #f00;
+  background-color: #f00 !important;
+}
+
+.ui.radio.checkbox input:checked ~ label::after {
+  background-color: #f9a03f !important;
+  width: 20px !important;
+  height: 20px !important;
+  border: 1px solid #fc962a99 !important;
+}
+
+.ui.radio.checkbox input:checked ~ label::before {
+  background-color: #272522 !important;
+  border: 1px solid #f9a03f99 !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.ui.checkbox > label::before{
+  background-color: #272522 !important;
+  border: 1px solid #fc962a99 !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.ui.grid > .row > .column {
+  padding: 0px !important;
+}
+
+#winRate{
+  margin-left: 20px;
+  padding: 10px 15px 10px 15px;
+}
+
+.ui.input {
+  color: #f9a03f !important;
+}
+
+.ui.input > input {
+  background: #272522 !important;
+  border: 1px solid #fc962a99 !important;
+  color: #dcdbdb !important;
+}
+
+.ui.icon.input > i.icon{
+  opacity: 0.9;
+}
+
+.ui.form > .field {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: left !important;
+}
+
+label[for="gif"] {
+  white-space: nowrap !important;
+  margin-right: 20px !important;
+  font-size: 1.3em !important;
+  display: block;
+  text-align: center;
+}

@@ -3,6 +3,7 @@ library(shiny.semantic)
 library(ggplot2)
 library(dplyr)
 library(plotly)
+library(stringr)
 library(forcats)
 library(gridExtra)
 library(maps)
@@ -10,7 +11,7 @@ library(sysfonts)
 library(countrycode)
 
 font_add_google("Roboto")
-
+    
 CREATORS <- c(
   "Krzysztof Sawicki",
   "Jakub Grzywaczewski",
@@ -169,9 +170,9 @@ shinyServer(function(input, output) {
   output$eloPlot <- renderPlot({
     df2 <- dfGamesData %>% filter(
       date >= input$date_from,
-      timeControl %in% input$typeElo,
+      timeControl %in% str_to_title(input$timeControlComp),
       date <= input$date_to,
-      player %in% input$playerElo
+      player %in% input$playerComp
     )
     ggplot(data = df2, aes(x = date, y = yourElo)) +
       geom_line(
@@ -205,9 +206,9 @@ shinyServer(function(input, output) {
   output$moveQualityPlot <- renderPlotly({
     dfMoveQuality %>%
       filter(
-        Type %in% input$typeMoveQuality,
+        Type %in% input$timeControlComp,
         Color %in% input$colorMoveQuality,
-        Player %in% input$playerMoveQuality
+        Player %in% input$playerComp
       ) %>%
       mutate(
         Move = fct_reorder(Move, Procent, .desc = FALSE)
@@ -231,44 +232,92 @@ shinyServer(function(input, output) {
 
 
   # Win rate plot
-  output$winRatePlot <- renderPlot({
+  # output$winRatePlot <- renderPlot({
+  #   dfWinRate %>%
+  #     filter(
+  #       Type %in% input$timeControlComp,
+  #       Player %in% input$playerComp
+  #     ) -> dfWinRatePlot
+
+  #   ggplot(dfWinRatePlot,
+  #     aes(x = "", y = Matches, fill = Result)) +
+  #     geom_col(width = 0.5) +
+  #     geom_text(
+  #       aes(label = paste(Percentages, "%")),
+  #       position = position_stack(vjust = 0.5)
+  #     ) +
+  #     scale_fill_manual(values = dfWinRatePlot$Colors) +
+  #     labs(x = "", y = "End Result") +
+  #     theme_void() +
+  #     theme(legend.position = "bottom") +
+  #     theme(
+  #       axis.title.x = element_text(size = 14, colour = "white"),
+  #       axis.title.y = element_text(size = 14, colour = "white"),
+  #       axis.text.x = element_text(size = 10, colour = "#dfdede"),
+  #       axis.text.y = element_text(size = 10, colour = "#dfdede"),
+  #       panel.background = element_rect(fill = "transparent"),
+  #       plot.background = element_rect(fill = "transparent", color = NA)
+  #     )
+
+  # }, background = "transparent")
+  output$winRatePlot <- renderPlotly({
     dfWinRate %>%
       filter(
-        Type %in% input$typeWinRate,
-        Player %in% input$playerWinRate
+        Type %in% input$timeControlComp,
+        Player %in% input$playerComp
       ) -> dfWinRatePlot
 
-    ggplot(dfWinRatePlot, aes(x = "", y = Matches, fill = Result)) +
-      geom_col(width = 0.5) +
-      geom_text(
-        aes(label = paste(Percentages, "%")),
-        position = position_stack(vjust = 0.5)
-      ) +
-      scale_fill_manual(values = dfWinRatePlot$Colors) +
-      labs(x = "", y = "End Result") +
-      theme_void() +
-      theme(legend.position = "bottom") +
-      theme(
-        axis.title.x = element_text(size = 14, colour = "white"),
-        axis.title.y = element_text(size = 14, colour = "white"),
-        axis.text.x = element_text(size = 10, colour = "#dfdede"),
-        axis.text.y = element_text(size = 10, colour = "#dfdede"),
-        panel.background = element_rect(fill = "transparent"),
-        plot.background = element_rect(fill = "transparent", color = NA)
-      )
-  }, background = "transparent")
+    fig <- plot_ly(
+      dfWinRatePlot,
+      x = ~Player,
+      y = ~Matches,
+      color = ~Result
+    ) %>%
+    layout(
+      paper_bgcolor = "rgba(0,0,0,0)",
+      plot_bgcolor = "rgba(0,0,0,0)",
+      title = list(
+        y = 1,
+        text = "Win rate plot",
+        font = list(
+          color = "white",
+          size = 20
+        )
+      ),
+      legend = list(
+        font = list(
+          color = "white",
+          size = 12
+        )
+      ),
+      font = list(color = "white"),
+      yaxis = list(
+        title = paste(
+          "# of games played in",
+          str_to_title(input$timeControlComp)
+        )
+      ),
+      xaxis = list(title = paste("Player")),
+      fill = ~Result,
+      barmode = "stack"
+    )
+    ggplotly(fig)
+  })
   
   
   output$timeLagElo <- renderUI({
-    dfGamesData %>% filter(player %in% input$playerElo, timeControl %in% input$typeElo) -> df3
+    dfGamesData %>% filter(
+      player %in% input$playerComp,
+      timeControl %in% str_to_title(input$timeControlComp)
+    ) -> df3
     tagList(
       tags$div(
         tags$div(HTML("From")),
         date_input(
           "date_from",
-          value = min(df3$date),
-          min = min(df3$date),
-          max = max(df3$date)
+          value = min(df3$date, na.rm = TRUE),
+          min = min(df3$date, na.rm = TRUE),
+          max = max(df3$date, na.rm = TRUE)
         )
       ),
       br(),
@@ -276,9 +325,9 @@ shinyServer(function(input, output) {
         tags$div(HTML("To")),
         date_input(
           "date_to",
-          value = max(df3$date),
-          min = min(df3$date),
-          max = max(df3$date))
+          value = max(df3$date, na.rm = TRUE),
+          min = min(df3$date, na.rm = TRUE),
+          max = max(df3$date, na.rm = TRUE))
       )
     )
   })
