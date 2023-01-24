@@ -295,7 +295,6 @@ shinyServer(function(input, output) {
         )
       ),
       xaxis = list(title = paste("Player")),
-      fill = ~Result,
       barmode = "stack"
     )
     ggplotly(fig)
@@ -331,38 +330,41 @@ shinyServer(function(input, output) {
   
   output$densPlot <- renderPlot({
     ggplot(data = dfGamesData %>% filter(player == "Kacper"), aes(x = endHour)) +
-      geom_density(fill = "#96bc4b") +
-      labs(x = "Hours of a day", y = "Density", title = "Kacper - usual playing hours") +
-      scale_x_continuous(limits = c(0, 24)) +
-      scale_y_continuous(limits = c(0, 0.1)) +
-      theme(
-        title = element_text(size = 20, colour = "#dfdede"),
-        axis.title.x = element_text(size = 14, colour = "white"),
-        axis.title.y = element_text(size = 14, colour = "white"),
-        axis.text.x = element_text(size = 10, colour = "white"),
-        axis.text.y = element_text(size = 10, colour = "white"),
-        legend.title = element_text(size = 14, colour = "white"),
-        plot.title = element_text(size = 14, colour = "white"),
-        panel.background = element_rect(fill = "transparent"),
-        plot.background = element_rect(fill = "transparent", color = NA)
-      ) -> p1
+    geom_density(fill = "#96bc4b") +
+    labs(x = "Hours of a day", y = "Density", title = "Kacper - usual playing hours") +
+    scale_x_continuous(limits = c(0, 24)) +
+    scale_y_continuous(limits = c(0, 0.1)) +
+    theme(
+      title = element_text(size = 20, colour = "#dfdede"),
+      axis.title.x = element_text(size = 14, colour = "white"),
+      axis.title.y = element_text(size = 14, colour = "white"),
+      axis.text.x = element_text(size = 10, colour = "white"),
+      axis.text.y = element_text(size = 10, colour = "white"),
+      legend.title = element_text(size = 14, colour = "white"),
+      plot.title = element_text(size = 14, colour = "white"),
+      panel.background = element_rect(fill = "transparent"),
+      plot.background = element_rect(fill = "transparent", color = NA)
+    ) -> p1
     ggplot(data = dfGamesData %>% filter(player == "Krzysiek"), aes(x = endHour)) +
-      geom_density(fill = "#96af8b") +
-      labs(x = "Hours of a day", y = "Density", title = "Krzysiek - usual playing hours") +
-      scale_x_continuous(limits = c(0, 24)) +
-      scale_y_continuous(limits = c(0, 0.1)) +
-      theme(
-        title = element_text(size = 20, colour = "#dfdede"),
-        axis.title.x = element_text(size = 14, colour = "white"),
-        axis.title.y = element_text(size = 14, colour = "white"),
-        axis.text.x = element_text(size = 10, colour = "white"),
-        axis.text.y = element_text(size = 10, colour = "white"),
-        plot.title = element_text(size = 14, colour = "white"),
-        panel.background = element_rect(fill = "transparent"),
-        plot.background = element_rect(fill = "transparent", color = NA)
-      ) -> p2
-    grid.arrange(p1, p2, ncol = 2)
-  }, background = "transparent")
+    geom_density(fill = "#96af8b") +
+    labs(x = "Hours of a day", y = "Density", title = "Krzysiek - usual playing hours") +
+    scale_x_continuous(limits = c(0, 24)) +
+    scale_y_continuous(limits = c(0, 0.1)) +
+    theme(
+      title = element_text(size = 20, colour = "#dfdede"),
+      axis.title.x = element_text(size = 14, colour = "white"),
+      axis.title.y = element_text(size = 14, colour = "white"),
+      axis.text.x = element_text(size = 10, colour = "white"),
+      axis.text.y = element_text(size = 10, colour = "white"),
+      plot.title = element_text(size = 14, colour = "white"),
+      panel.background = element_rect(fill = "transparent"),
+      plot.background = element_rect(fill = "transparent", color = NA)
+    ) -> p2
+    grid.arrange(p1, p2, ncol = 2) + theme(
+      panel.background = element_rect(fill = "transparent"),
+      plot.background = element_rect(fill = "transparent", color = NA)
+    )
+  }, bg = "transparent")
 
   # Generating gifs
   output$selected_gif <- renderImage({

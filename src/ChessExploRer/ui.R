@@ -120,6 +120,7 @@ homeTab <- semanticPage(
   )
 )
 
+
 ###### MAP TAB ######
 mapTab <- semanticPage(
   title = "Map",
@@ -167,7 +168,11 @@ gamesTab <- semanticPage(
         ))
       ),
       div(class = "row",
-          imageOutput("selected_gif")
+        shinycssloaders::withSpinner(
+          imageOutput("selected_gif"),
+          type = 4,
+          color = "#f9a03f"
+        )
       )
   )
 )
