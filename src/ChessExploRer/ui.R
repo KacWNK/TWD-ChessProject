@@ -82,7 +82,7 @@ homeTab <- semanticPage(
             div(class = "label text-white", "Player game")
           ),
           div(class = "statistic",
-            div(class = "value text-orange", 16),
+            div(class = "value text-orange", 20),
             div(class = "label text-white", "Starting moves")
           ),
           div(class = "statistic",
@@ -160,11 +160,11 @@ gamesTab <- semanticPage(
       selectInput(
         "gif", "Select a gif:",
         choices = c(
-          "Immortal game- Kacper(white)" = "./resources/KW_immortalGame.gif",
+          "Best game- Kacper(white)" = "./resources/KW_immortalGame.gif",
           "First game- Kacper(white)" = "./resources/KacperPierwszaPartia.gif",
-          "Immortal game- Krzysiek" = "./resources/gigachad-chad.gif",
+          "Best game- Krzysiek(white)" = "./resources/Kristof_Immortal.gif",
           "First game- Krzysiek(white)" = "./resources/Krzysiu_pierwszaPartia.gif"
-        )),
+        ))
       ),
       div(class = "row",
           imageOutput("selected_gif")

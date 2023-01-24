@@ -174,3 +174,10 @@ label[for="gif"] {
   display: block;
   text-align: center;
 }
+
+.pwhite{
+  white-space: nowrap;
+  margin-left: 10px;
+  font-size: 1.3em !important;
+  text-align: center;
+}

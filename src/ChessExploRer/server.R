@@ -119,11 +119,11 @@ shinyServer(function(input, output) {
         aes(tooltip = Country)
       ) +
       scale_fill_gradient(
+        limits = c(0, 100),
         name = ifelse(input$fill_var == "WinP", "Win Ratio (%)", "Average Accuracy"),
         low = ifelse(input$fill_var == "WinP", "#7ed036", "#532808"),
         high = ifelse(input$fill_var == "WinP", "#00441b", "#f3cf30"),
-        na.value = ifelse(input$fill_var == "WinP", "white", "white"),
-        trans = "log10"
+        na.value = ifelse(input$fill_var == "WinP", "white", "white")
       ) +
       theme(
         axis.text.x = element_blank(),
@@ -157,11 +157,11 @@ shinyServer(function(input, output) {
         aes(tooltip = Country)
       ) +
       scale_fill_gradient(
+        limits = c(0, 100),
         name = ifelse(input$fill_var == "WinP", "Win Ratio (%)", "Average Accuracy"),
         low = ifelse(input$fill_var == "WinP", "#7ed036", "#532808"),
         high = ifelse(input$fill_var == "WinP", "#00441b", "#f3cf30"),
-        na.value = ifelse(input$fill_var == "WinP", "white", "white"),
-        trans = "log10"
+        na.value = ifelse(input$fill_var == "WinP", "white", "white")
       ) +
       theme(
         axis.text.x = element_blank(),
@@ -207,9 +207,11 @@ shinyServer(function(input, output) {
       ) +
       labs(
         x = "Date",
-        y = "Rating points"
+        y = "Rating points",
+        title = "ELO change in time"
       ) +
       theme(
+        title = element_text(size = 14, colour = "#dfdede"),
         axis.title.x = element_text(size = 14, colour = "white"),
         axis.title.y = element_text(size = 14, colour = "white"),
         axis.text.x = element_text(size = 8, colour = "#dfdede"),
@@ -234,11 +236,19 @@ shinyServer(function(input, output) {
 
     ggplot(data = dfMoveQualityPlot, aes(x = Procent, y = Move, fill = MoveColor)) +
       geom_col() +
-      labs(x = "Percent", y = "Move type") +
+      labs(
+        x = "Percent",
+        y = "Move type",
+        title = "Moves quality distribution"
+      ) +
       scale_fill_manual(values = unique(dfMoveQualityPlot$MoveColor)) +
-      scale_x_continuous(expand = c(0, 0)) +
+      scale_x_continuous(
+        expand = c(0, 0),
+        limits = c(0, 35)
+      ) +
       theme(legend.position = "none") +
       theme(
+        title = element_text(size = 14, colour = "#dfdede"),
         axis.title.x = element_text(size = 14, colour = "white"),
         axis.title.y = element_text(size = 14, colour = "white"),
         axis.text.x = element_text(size = 10, colour = "#dfdede"),
@@ -247,37 +257,6 @@ shinyServer(function(input, output) {
         plot.background = element_rect(fill = "transparent", color = NA)
       )
   })
-
-
-  # Win rate plot
-  # output$winRatePlot <- renderPlot({
-  #   dfWinRate %>%
-  #     filter(
-  #       Type %in% input$timeControlComp,
-  #       Player %in% input$playerComp
-  #     ) -> dfWinRatePlot
-
-  #   ggplot(dfWinRatePlot,
-  #     aes(x = "", y = Matches, fill = Result)) +
-  #     geom_col(width = 0.5) +
-  #     geom_text(
-  #       aes(label = paste(Percentages, "%")),
-  #       position = position_stack(vjust = 0.5)
-  #     ) +
-  #     scale_fill_manual(values = dfWinRatePlot$Colors) +
-  #     labs(x = "", y = "End Result") +
-  #     theme_void() +
-  #     theme(legend.position = "bottom") +
-  #     theme(
-  #       axis.title.x = element_text(size = 14, colour = "white"),
-  #       axis.title.y = element_text(size = 14, colour = "white"),
-  #       axis.text.x = element_text(size = 10, colour = "#dfdede"),
-  #       axis.text.y = element_text(size = 10, colour = "#dfdede"),
-  #       panel.background = element_rect(fill = "transparent"),
-  #       plot.background = element_rect(fill = "transparent", color = NA)
-  #     )
-
-  # }, background = "transparent")
   output$winRatePlot <- renderPlotly({
     dfWinRate %>%
       filter(
@@ -296,7 +275,7 @@ shinyServer(function(input, output) {
       plot_bgcolor = "rgba(0,0,0,0)",
       title = list(
         y = 1,
-        text = "Win rate plot",
+        text = "Win Rate",
         font = list(
           color = "white",
           size = 20
@@ -353,10 +332,11 @@ shinyServer(function(input, output) {
   output$densPlot <- renderPlot({
     ggplot(data = dfGamesData %>% filter(player == "Kacper"), aes(x = endHour)) +
       geom_density(fill = "#96bc4b") +
-      labs(x = "Hours of a day", y = "Density", title = "Kacper") +
+      labs(x = "Hours of a day", y = "Density", title = "Kacper - usual playing hours") +
       scale_x_continuous(limits = c(0, 24)) +
       scale_y_continuous(limits = c(0, 0.1)) +
       theme(
+        title = element_text(size = 20, colour = "#dfdede"),
         axis.title.x = element_text(size = 14, colour = "white"),
         axis.title.y = element_text(size = 14, colour = "white"),
         axis.text.x = element_text(size = 10, colour = "white"),
@@ -368,10 +348,11 @@ shinyServer(function(input, output) {
       ) -> p1
     ggplot(data = dfGamesData %>% filter(player == "Krzysiek"), aes(x = endHour)) +
       geom_density(fill = "#96af8b") +
-      labs(x = "Hours of a day", y = "Density", title = "Krzysiek") +
+      labs(x = "Hours of a day", y = "Density", title = "Krzysiek - usual playing hours") +
       scale_x_continuous(limits = c(0, 24)) +
       scale_y_continuous(limits = c(0, 0.1)) +
       theme(
+        title = element_text(size = 20, colour = "#dfdede"),
         axis.title.x = element_text(size = 14, colour = "white"),
         axis.title.y = element_text(size = 14, colour = "white"),
         axis.text.x = element_text(size = 10, colour = "white"),
